@@ -4,9 +4,11 @@
 
 # Get the image pattern to process
 #day="*"
+# Process previous day
 #day=`ls -1 *_20*-*.jpg | cut -d'_' -f1-2 | tail -1`
 # Processes last hour only
 #day=`ls -1 *_20*-*.jpg | cut -d'_' -f1-3 | tail -1`
+# Get hour to process from the passed in file.
 day=`echo $1 | cut -d'_' -f1-3 | tail -1`
 
 echo -n "Camera: "
