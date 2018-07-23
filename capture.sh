@@ -21,8 +21,7 @@ do
     cd ${cam}
     mkdir -p bad
     wget -N https://volcanoes.usgs.gov/observatories/hvo/cams/${cam}/images/${IMG}
-    echo "return: $?"
-    if [ ${IMG} -nt MT.png ];
+    if [ ! -f MT.png ] | [ ${IMG} -nt MT.png ];
     then
       name=${cam}_`TZ=HST stat -c%y ${IMG} | cut -c1-16 | tr " :" "__"`.jpg
       if [ ! -f $name ];
