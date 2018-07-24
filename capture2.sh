@@ -47,7 +47,7 @@ do
         then
           mv tmp.png MT.png
           cp -a ${IMG} $name
-          if [ $(( `stat -c "%Z" $name` / 60 % 10 )) -gt 7 ];
+          if [ $(( `stat -c "%Z" $name` / 60 % 10 )) -gt 6 ];
           then
             echo -e "${cam}cam\t$name" >$FIFO &
           fi
