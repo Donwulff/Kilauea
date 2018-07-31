@@ -24,10 +24,10 @@ do
     if [ ! -f MT.png ] | [ ${IMG} -nt MT.png ];
     then
       name=${cam}_`TZ=HST stat -c%y ${IMG} | cut -c1-16 | tr " :" "__"`.jpg
-      if [ ! -f $name ];
+      if [ -f ${IMG} ] && [ ! -f $name ];
       then
         echo "Checking integrity"
-        if ! convert ${IMG} -geometry 128x tmp.png 2>&1 | grep "convert";
+        if ! convert ${IMG} -define jpeg:size=256x256 -geometry 128x tmp.png 2>&1 | grep "convert";
         then
           mv tmp.png MT.png
           cp -a ${IMG} $name
