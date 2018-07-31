@@ -31,7 +31,7 @@ sub gallery() {
         move( $_, $day ) || carp "Can't move images $mask into $day: $@";
     }
 
-    # exit;
+    exit if (defined $ARGV[1] && 1 == $ARGV[1]);
 
 # Actually source path could be $day/*, but let's allow other types of files being stored there.
     my $gallery = "gallery/${hour_part}";
@@ -45,7 +45,7 @@ sub gallery() {
     unlink("${hour_part}_map.shtml")
       || carp "Couldn't delete ${hour_part}.shtml: $@";
 
-    exit;
+    exit if (defined $ARGV[1] && 2 == $ARGV[1]);
 
     open( my $idx, '>', 'index.html.tmp' )
       || carp "Couldn't write index.html.tmp: $@";
