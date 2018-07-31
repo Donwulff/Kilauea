@@ -14,6 +14,6 @@ while true;
 do
   read -u3 dir image
   cd $dir
-    $DIR/index.sh $image
+    $DIR/index.pl $image
   cd ..
 done
