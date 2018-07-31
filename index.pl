@@ -69,10 +69,9 @@ sub gallery() {
         next if ( 'gallery' eq $date );
         next if ( !-d $date );
         system(
-"bash -c 'egrep -h \"(title|img|map|area)\" gallery/${cam}_${date}_*.html | sed -r \"s/\.png/\.jpg/;s/<title>[^_]*_[^_]*_(.*)<\\/title>/<br \\/><div>\\1:00<\\/div>/\" > gallery/${cam}_${date}.html'"
+"bash -c 'egrep -h \"(title|img|map|area)\" gallery/${cam}_${date}_*.html | sed -r \"s/\.png/\.jpg/;s/<title>[^_]*_[^_]*_(.*)<\\/title>/<br \\/><div>\\1:00<\\/div>/\" > ${cam}_${date}.html'"
         );
-        print( $idx
-              "<li><a href=\"gallery/${cam}_${date}.html\">${date}</a></li>" );
+        print( $idx "<li><a href=\"${cam}_${date}.html\">${date}</a></li>" );
     }
     print( $idx '</ul></body></html>' );
     close($idx) || carp "Couldn't close index.html.tmp: $@";
