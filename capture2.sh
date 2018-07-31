@@ -1,5 +1,9 @@
 #!/bin/sh
-CAMS="TL-10 TL-11 LAVA VTEC"
+
+# These cams have different base URL's, may update more frequently, and not set timestamp correctly.
+# Consequently run in faster loop, compare result to last image, and throttle gallery updates.
+
+CAMS="LAVA VTEC TL-10 TL-11"
 
 FIFO=`pwd`/indexque.fifo
 if [ ! -p $FIFO ];
@@ -37,27 +41,32 @@ do
     cd ..
     EXT=${IMG##*.}
     IMG=tmp/$IMG
-    if ! cmp `ls -1tr *.${EXT} | tail -1` ${IMG};
+    if ! cmp ${IMG} last;
     then
-      name=${cam}_`TZ=HST stat -c%y ${IMG} | cut -c1-19 | tr " :" "__"`.${EXT}
+      tstamp=`TZ=HST stat -c%y ${IMG} | cut -c1-19 | tr " :" "__"`
+      dstamp=`echo "$tstamp" | cut -c1-10`
+      name=${cam}_${tstamp}.${EXT}
       if [ -f ${IMG} ] && [ ! -f $name ];
       then
         echo "Checking integrity"
         if ! convert ${IMG} -define jpeg:size=256x256 -geometry 128x tmp.png 2>&1 | grep "convert";
         then
           mv tmp.png MT.png
-          cp -a ${IMG} $name
-          if [ $(( `stat -c "%Z" $name` / 60 % 10 )) -gt 6 ];
+          mkdir -p $dstamp
+          cp -a ${IMG} $dstamp/$name
+          ln -sf $dstamp/$name last
+          if [ $(( `stat -c "%Z" ${IMG}` / 60 % 10 )) -gt 6 ];
           then
-            echo -e "${cam}cam\t$name" >$FIFO &
+            /bin/echo -e "${cam}cam\t$name" >$FIFO &
           fi
         else
           cp -a ${IMG} bad/$name
+          ln -sf bad/$name last
         fi
       fi
     fi
     cd ..
   done
   echo "Sleeping..."
-  sleep 7
+  sleep 3
 done
