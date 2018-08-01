@@ -67,6 +67,7 @@ sub gallery() {
         next if ( 'dark' eq $date );
         next if ( 'dark2' eq $date );
         next if ( 'gallery' eq $date );
+        next if ( 'lost+found' eq $date );
         next if ( !-d $date );
         system(
 "bash -c 'egrep -h \"(title|img|map|area)\" gallery/${cam}_${date}_*.html | sed -r \"s/\.png/\.jpg/;s/<title>[^_]*_[^_]*_(.*)<\\/title>/<br \\/><div>\\1:00<\\/div>/\" > ${cam}_${date}.html'"
