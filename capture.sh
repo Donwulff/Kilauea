@@ -21,7 +21,7 @@ do
     IMG=M.jpg
     cd ${cam}
     mkdir -p bad
-    wget -N https://volcanoes.usgs.gov/observatories/hvo/cams/${cam}/images/${IMG}
+    wget -T1 -N https://volcanoes.usgs.gov/observatories/hvo/cams/${cam}/images/${IMG}
     if [ ! -f MT.png ] | [ ${IMG} -nt MT.png ];
     then
       tstamp=`TZ=HST stat -c%y ${IMG} | cut -c1-19 | tr " :" "__"`

@@ -27,15 +27,15 @@ do
     if [ "${cam}" = "LAVA" ];
     then
       IMG=image.jpg
-      wget -N http://lavacam.org/image.jpg
+      wget -T1 -N http://lavacam.org/image.jpg
     else
       if [ "${cam}" = "VTEC" ]
       then
         IMG=latest_rti.gif
-        wget -N https://iono.jpl.nasa.gov/RT/latest_rti.gif
+        wget -T1 -N https://iono.jpl.nasa.gov/RT/latest_rti.gif
       else
         IMG=${cam}.jpg
-        wget -N http://images.punatraffic.com/SnapShot/640x480/${IMG}
+        wget -T1 -N http://images.punatraffic.com/SnapShot/640x480/${IMG}
       fi
     fi
     cd ..
