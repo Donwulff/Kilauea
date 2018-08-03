@@ -36,7 +36,7 @@ sub gallery() {
 # Actually source path could be $day/*, but let's allow other types of files being stored there.
     my $gallery = "gallery/${hour_part}";
     my $gallery_cmd =
-"montage -define jpeg:size=256x256 ${day}/${mask} -tile x1 -geometry x128+1+1 ${gallery}.html";
+"montage -define jpeg:size=128x128 ${day}/${mask} -tile x1 -geometry x128+1+1 ${gallery}.html";
     print "Running: $gallery_cmd\n";
     system($gallery_cmd) && carp "Can't create gallery page: $@";
     system("convert ${gallery}.png ${gallery}.jpg")
