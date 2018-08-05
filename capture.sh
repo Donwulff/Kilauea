@@ -1,5 +1,5 @@
 #!/bin/sh
-CAMS="KEcam KWcam KIcam K2cam F1cam SO2cam PScam PNcam PTcam PEcam PWcam R3cam PGcam HPcam POcam MUcam MOcam SPcam MLcam MTcam M1cam M2cam M3cam"
+CAMS="KEcam KWcam KIcam K2cam F1cam SO2cam PScam PNcam PTcam PEcam PWcam R3cam PGcam HPcam POcam MUcam MOcam SPcam MLcam MTcam M1cam M2cam M3cam LPcam LQcam LScam LTcam"
 
 FIFO=`pwd`/indexque.fifo
 if [ ! -p $FIFO ];
