@@ -1,6 +1,6 @@
 #!/bin/bash
 DIR=`pwd`
-HOURS=24
+HOURS=48
 HOST=ec2-user@caelestic.net
 KEY=LightsailDefaultPrivateKey-us-east-2.pem
 BW=70
@@ -10,19 +10,19 @@ do
   echo ">>>>>>>>> $c"
   # Sync any images we've missed
   rsync -Kaik --no-owner --no-group -e "ssh -i $KEY" $c/ $HOST:/var/lib/data/Kilauea/$c/ --ignore-existing \
-    --include "$*-*-*/*.jpg" --include "*-*-*/*.gif" -f 'hide,! */' --bwlimit=$BW
+    --include "*-*-*/*.jpg" --include "*-*-*/*.gif" -f 'hide,! */' --bwlimit=$BW
   rsync -Kaik --no-owner --no-group -e "ssh -i $KEY" $HOST:/var/lib/data/Kilauea/$c/ $c/ --ignore-existing \
     --include "*-*-*/*.jpg" --include "*-*-*/*.gif" -f 'hide,! */' --bwlimit=$BW
   cd $c
-  if [ "$i" = "TL-10cam" ];
+  if [ "$c" = "TL-10cam" ];
   then
-    fdupes -o name -Nd `find TL-10cam -type d -name "*-*-*" | sort | tail -$(($HOURS/24+1))`
+    fdupes -o name -Nd `find -type d -name "*-*-*" | sort | tail -$(($HOURS/24+1))`
   fi
-  if [ "$i" = "TL-10cam" ];
+  if [ "$c" = "TL-10cam" ];
   then
-    fdupes -o name -Nd `find TL-11cam -type d -name "*-*-*" | sort | tail -$(($HOURS/24+1))`
+    fdupes -o name -Nd `find -type d -name "*-*-*" | sort | tail -$(($HOURS/24+1))`
   fi
-  if [ "$i" = "VTECcam" ];
+  if [ "$c" = "VTECcam" ];
   then
     EXT=gif
   else
