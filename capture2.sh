@@ -3,7 +3,7 @@
 # These cams have different base URL's, may update more frequently, and not set timestamp correctly.
 # Consequently run in faster loop, compare result to last image, and throttle gallery updates.
 
-CAMS="LAVA VTEC TL-10 TL-11"
+CAMS="LAVA LAVA2 VTEC TL-10 TL-11"
 
 FIFO=`pwd`/indexque.fifo
 if [ ! -p $FIFO ];
@@ -27,15 +27,21 @@ do
     if [ "${cam}" = "LAVA" ];
     then
       IMG=image.jpg
-      wget -T1 -N http://lavacam.org/image.jpg
+      wget -T1 -N http://lavacam.org/${IMG}
     else
-      if [ "${cam}" = "VTEC" ]
+      if [ "${cam}" = "LAVA2" ];
       then
-        IMG=latest_rti.gif
-        wget -T1 -N https://iono.jpl.nasa.gov/RT/latest_rti.gif
+        IMG=image2.jpg
+        wget -T1 -N http://lavacam.org/${IMG}
       else
-        IMG=${cam}.jpg
-        wget -T1 -N http://images.punatraffic.com/SnapShot/640x480/${IMG}
+        if [ "${cam}" = "VTEC" ]
+        then
+          IMG=latest_rti.gif
+          wget -T1 -N https://iono.jpl.nasa.gov/RT/latest_rti.gif
+        else
+          IMG=${cam}.jpg
+          wget -T1 -N http://images.punatraffic.com/SnapShot/640x480/${IMG}
+        fi
       fi
     fi
     cd ..
