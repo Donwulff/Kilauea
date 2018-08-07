@@ -7,6 +7,9 @@ use File::Copy;
 use Carp;
 
 sub gallery() {
+    my $stage = $ARGV[1];
+    my $size  = $ARGV[2] // "128x128";
+
     my ( $cam, $day, $hr, $min, $ext );
     if ( $ARGV[0] =~
 /^([^_]+)_([\d]{4}-[\d]{2}-[\d]{2})_([\d]{2})_([\d]{2})(_[\d]{2})?\.([\w]+)$/
@@ -31,12 +34,12 @@ sub gallery() {
         move( $_, $day ) || carp "Can't move images $mask into $day: $@";
     }
 
-    exit if (defined $ARGV[1] && 1 == $ARGV[1]);
+    exit if ( defined $stage && 1 == $stage );
 
 # Actually source path could be $day/*, but let's allow other types of files being stored there.
     my $gallery = "gallery/${hour_part}";
     my $gallery_cmd =
-"montage -define jpeg:size=128x128 ${day}/${mask} -tile x1 -geometry x128+1+1 ${gallery}.html";
+"montage -define jpeg:size=${size} ${day}/${mask} -tile x1 -geometry x128+1+1 ${gallery}.html";
     print "Running: $gallery_cmd\n";
     system($gallery_cmd) && carp "Can't create gallery page: $@";
     system("convert ${gallery}.png ${gallery}.jpg")
@@ -45,7 +48,7 @@ sub gallery() {
     unlink("${hour_part}_map.shtml")
       || carp "Couldn't delete ${hour_part}.shtml: $@";
 
-    exit if (defined $ARGV[1] && 2 == $ARGV[1]);
+    exit if ( defined $stage && 2 == $stage );
 
     open( my $idx, '>', 'index.html.tmp' )
       || carp "Couldn't write index.html.tmp: $@";
